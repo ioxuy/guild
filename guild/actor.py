@@ -74,7 +74,7 @@ class ActorMetaclass(type):
             if val.__class__ == tuple and len(val) == 2:
                 tag, fn = str(val[0]), val[1]
                 if tag.startswith("ACTORMETHOD"):
-                    inboxes[fn.func_name] = fn.__doc__
+                    inboxes[name] = fn.__doc__
                     def mkcallback(func):
                         @_wraps(func)
                         def t(self, *args, **argd):
@@ -123,7 +123,7 @@ class ActorMetaclass(type):
                     new_dct[name] = mkcallback(fn)
 
                 elif tag == "LATEBIND":
-                    outboxes[fn.func_name] = fn.__doc__
+                    outboxes[name] = fn.__doc__
                     def mkcallback(func):
                         @_wraps(func)
                         def s(self, *args, **argd):
@@ -132,7 +132,7 @@ class ActorMetaclass(type):
                     new_dct[name] = mkcallback(fn)
 
                 elif tag == "LATEBINDSAFE":
-                    outboxes[fn.func_name] = fn.__doc__
+                    outboxes[name] = fn.__doc__
                     def mkcallback(func):
                         @_wraps(func)
                         def t(self, *args, **argd):
